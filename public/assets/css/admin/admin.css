@@ -1,0 +1,126 @@
+body {
+    background: #F6B588;
+}
+
+
+.table-background {
+    background: #fff;
+}
+
+.fa.fa-file {
+    color: #000;
+}
+
+.fa.fa-minus-square {
+    color: #000;
+}
+
+.fa.fa-plus-square {
+    color: green;
+}
+
+.fa.fa-pencil {
+  color: #000;
+}
+
+.hidden {
+  display:none !important;
+}
+
+.delete-btn {
+  border: none;
+  background: transparent;
+}
+
+.validation-error {
+    color: #E03C3C;
+}
+
+.ul-validation-error {
+   margin-top: 10px;
+}
+
+.input-validation-error {
+    border-color: #E03C3C !important;
+}
+
+.input-validation-error:focus {
+    border-color: #E03C3C !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6) !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6) !important;
+}
+
+.banner {
+
+}
+
+.navbar-user {
+    padding-top: 15px;
+    padding-right: 55px;
+    float: right;
+    list-style-type: none;
+    color: #000;
+}
+
+.navbar-user a {
+  color: #000;
+}
+
+
+
+footer {
+  background:#5A5A5A;
+  height: 50px;
+  width: 100%;
+  color: #fff;
+  position:absolute;
+  bottom:0;
+  left:0;
+}
+
+.text-muted {
+    color: #FFF;
+    padding-top: 15px;
+}
+
+.auth {
+  margin-top: 150px;
+}
+
+
+
+
+/**
+ * CSSReset.com - How To Keep Footer At Bottom of Page with CSS
+ *
+ * Original Tutorial: http://www.cssreset.com/2010/css-tutorials/how-to-keep-footer-at-bottom-of-page-with-css/
+ * License: Free - do whatever you like with it! Credit and linkbacks much appreciated.
+ *
+ * NB: Make sure the value for 'padding-bottom' on #content is equal to or greater than the height of #footer.
+ */
+html,
+body
+{
+	margin:0;
+	padding:0;
+	height:100%;
+}
+#wrapper {
+	min-height:100%;
+	position:relative;
+}
+#header {
+	background:#ededed;
+	padding:10px;
+}
+#content {
+	padding-bottom:70px; /* Height of the footer element */
+}
+#footer {
+	background:#ffab62;
+	width:100%;
+	height:100px;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
