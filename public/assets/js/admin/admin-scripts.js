@@ -1,16 +1,11 @@
-function onDelete(id) {
-    var location = window.location.pathname;
-    location = location.split('/');
-    location = location[location.length - 1];
-    var conf = confirm('Deseja mesmo deletar o item ' + id + '?');
-    if (conf == true)
-    {
-      window.location = "/admin/" + location + "/destroy/" + id;
-    }
-}
-
 $(function($){
       var base_url = document.location.origin;
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
 
       tinymce.init({
         selector: "textarea.editor-light",
@@ -73,8 +68,8 @@ $(function($){
         remove_script_host: false
     });
 
-    $('.date').datepicker({
-        format: 'dd/mm/yyyy'
+    $('input.date[type=text]').datepicker({
+        dateFormat: 'dd/mm/yy'
     });
 
     $('.ul-validation-error').prev().addClass("input-validation-error");
@@ -88,11 +83,130 @@ $(function($){
         e.preventDefault();
         $('.edit-image').addClass('hidden');
         $(this).next().removeClass('hidden');
-        $(this).addClass('hidden');
+        $(this).remove();
     });
 
     $('#btn-password-change').click(function(){
         $('.password-group').removeClass('hidden');
+        $(this).fadeOut('slow');
     });
 
+    $('#clear-filters').click(function(e){
+        e.preventDefault();
+        var location = window.location.pathname;
+        location = location.split('/');
+        location = location[location.length - 1];
+        window.location.href = "/admin/" + location;
+    });
+
+    $('#multi-select-tag').attr('placeholder', 'teste');
+
+    $('.select2').select2();
+
+    $('#AddMessageForm').submit(function(e){
+          e.preventDefault();
+          console.log($(this).serialize());
+          $.ajax({
+              type:"POST",
+              dataType:"HTML",
+              data:$(this).serialize(),
+              url: $(this).attr('action'),
+              success : function(data) {
+                 //var material = $.parseJSON(data);
+                 alert('funfou');
+              },
+              error : function() {
+                 alert("não funfou");
+              }
+          });
+    });
+
+
+
+
+
+
+
 });
+
+// Funções JavaScript4
+
+function onDelete(id) {
+
+    jQuery(function($) {
+          jConfirm('Deseja mesmo deletar o item ' + id + '?', 'Confirmação', function(r) {
+                if(r == true) {
+                    var location = window.location.pathname;
+                    location = location.split('/');
+                    location = location[location.length - 1];
+                    window.location = "/admin/" + location + "/destroy/" + id;
+                }
+          });
+   });
+
+}
+
+function getMessage(id)  {
+
+    jQuery(function($) {
+          $.ajax({
+            type:"POST",
+            dataType:"HTML",
+            data:{value_to_send:id},
+            url:"/admin/messages/getMessage/" + id,
+            success : function(data) {
+               var message = $.parseJSON(data);
+               $('#message-title').text(message.title);
+               $('#message-author').text(message.author);
+               $('#message-email').text(message.email);
+               $('#message-body').text(message.body);
+               $('.sendmail').attr('id', message.email);
+
+               var current_date = $.datepicker.formatDate('dd/mm/yy', new Date());
+               var created_at = $.datepicker.formatDate('dd/mm/yy', new Date(message.created_at));
+
+               var time = new Date(message.created_at);
+               time = time.getHours() + ':' + time.getMinutes();
+
+               $('#message-created_at').text(current_date==created_at? 'Hoje ' : created_at);
+               $('#message-time').text(time);
+
+            },
+            error : function() {
+               alert("false");
+            }
+        });
+   });
+
+}
+
+function ajax_mail(id)  {
+
+    jQuery(function($) {
+
+      var email = id;
+      var message = $('#message').val();
+      var data = {email: email, message: message};
+
+      //data.push({email: email});
+      //data.push({message: message});
+
+      console.log(data);
+      $.ajax({
+          type:"POST",
+          dataType:"HTML",
+          data:{value_to_send:data},
+          url: "/admin/messages/sendmail/"+{email: email, message: message},
+          success : function(tata) {
+             var material = $.parseJSON(tata);
+             console.log(material);
+             console.log(tata);
+          },
+          error : function() {
+             alert("não funfou");
+          }
+      });
+
+   });
+
+}

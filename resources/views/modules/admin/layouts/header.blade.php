@@ -1,64 +1,284 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{{'/admin'}}"> JT Soft </a>
-    </div>
+		<!-- start: Header -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="{{url('/admin')}}"><span>JT Soft</span></a>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-newspaper-o"></i>&nbsp; Páginas <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{url('admin/pages')}}">Listar Páginas</a></li>
-            <li><a href="{{url('admin/pages/add')}}">Adicionar Página</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-newspaper-o"></i>&nbsp; Posts <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{url('admin/posts')}}">Listar Posts</a></li>
-            <li><a href="{{url('admin/posts/add')}}">Adicionar Post</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{url('/admin/post-categories')}}">Categorias</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{url('/admin/tags')}}" >Tags</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Banners <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{url('/admin/banners/add')}}">Adicionar Banner</a></li>
-            <li><a href="{{url('/admin/banners')}}">Listar Banners</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Configurações do site <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#"><i class = "fa fa-gears"></i> Configurações gerais</a></li>
-            <li><a href="{{url('/admin/users')}}"><i class = "fa fa-users"></i> Usuários ADM </a></li>
-            <li><a href="#"><i class = "fa fa-wrench"></i> Permissões</a></li>
-          </ul>
-        </li>
-      </ul>
+				<!-- start: Header Menu -->
+				<div class="nav-no-collapse header-nav">
+					<ul class="nav pull-right">
+						<li class="dropdown hidden-phone">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-bell"></i>
+								<span class="badge red">
+								7 </span>
+							</a>
+							<ul class="dropdown-menu notifications">
+								<li class="dropdown-menu-title">
+ 									<span>You have 11 notifications</span>
+									<a href="#refresh"><i class="icon-repeat"></i></a>
+								</li>
+                            	<li>
+                                    <a href="#">
+										<span class="icon blue"><i class="icon-user"></i></span>
+										<span class="message">New user registration</span>
+										<span class="time">1 min</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon green"><i class="icon-comment-alt"></i></span>
+										<span class="message">New comment</span>
+										<span class="time">7 min</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon green"><i class="icon-comment-alt"></i></span>
+										<span class="message">New comment</span>
+										<span class="time">8 min</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon green"><i class="icon-comment-alt"></i></span>
+										<span class="message">New comment</span>
+										<span class="time">16 min</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon blue"><i class="icon-user"></i></span>
+										<span class="message">New user registration</span>
+										<span class="time">36 min</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon yellow"><i class="icon-shopping-cart"></i></span>
+										<span class="message">2 items sold</span>
+										<span class="time">1 hour</span>
+                                    </a>
+                                </li>
+								<li class="warning">
+                                    <a href="#">
+										<span class="icon red"><i class="icon-user"></i></span>
+										<span class="message">User deleted account</span>
+										<span class="time">2 hour</span>
+                                    </a>
+                                </li>
+								<li class="warning">
+                                    <a href="#">
+										<span class="icon red"><i class="icon-shopping-cart"></i></span>
+										<span class="message">New comment</span>
+										<span class="time">6 hour</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon green"><i class="icon-comment-alt"></i></span>
+										<span class="message">New comment</span>
+										<span class="time">yesterday</span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="icon blue"><i class="icon-user"></i></span>
+										<span class="message">New user registration</span>
+										<span class="time">yesterday</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown-menu-sub-footer">
+                            		<a>View all notifications</a>
+								</li>
+							</ul>
+						</li>
+						<!-- start: Notifications Dropdown -->
+						<li class="dropdown hidden-phone">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-calendar"></i>
+								<span class="badge red">
+								5 </span>
+							</a>
+							<ul class="dropdown-menu tasks">
+								<li class="dropdown-menu-title">
+ 									<span>You have 17 tasks in progress</span>
+									<a href="#refresh"><i class="icon-repeat"></i></a>
+								</li>
+								<li>
+                                    <a href="#">
+										<span class="header">
+											<span class="title">iOS Development</span>
+											<span class="percent"></span>
+										</span>
+                                        <div class="taskProgress progressSlim red">80</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="header">
+											<span class="title">Android Development</span>
+											<span class="percent"></span>
+										</span>
+                                        <div class="taskProgress progressSlim green">47</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                                        <div class="taskProgress progressSlim yellow">32</div>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                                        <div class="taskProgress progressSlim greenLight">63</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="header">
+											<span class="title">ARM Development</span>
+											<span class="percent"></span>
+										</span>
+                                        <div class="taskProgress progressSlim orange">80</div>
+                                    </a>
+                                </li>
+								<li>
+                            		<a class="dropdown-menu-sub-footer">View all tasks</a>
+								</li>
+							</ul>
+						</li>
+						<!-- end: Notifications Dropdown -->
+						<!-- start: Message Dropdown -->
+						<li class="dropdown hidden-phone">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-envelope"></i>
+								<span class="badge red">
+								4 </span>
+							</a>
+							<ul class="dropdown-menu messages">
+								<li class="dropdown-menu-title">
+ 									<span>You have 9 messages</span>
+									<a href="#refresh"><i class="icon-repeat"></i></a>
+								</li>
+                            	<li>
+                                    <a href="#">
+										<span class="avatar"><img src="{{asset('assets/img/avatar.jpg')}}" alt="Avatar"></span>
+										<span class="header">
+											<span class="from">
+										    	Dennis Ji
+										     </span>
+											<span class="time">
+										    	6 min
+										    </span>
+										</span>
+                                        <span class="message">
+                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="avatar"><img src="{{asset('assets/img/avatar.jpg')}}" alt="Avatar"></span>
+										<span class="header">
+											<span class="from">
+										    	Dennis Ji
+										     </span>
+											<span class="time">
+										    	56 min
+										    </span>
+										</span>
+                                        <span class="message">
+                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="avatar"><img src="{{asset('assets/img/avatar.jpg')}}" alt="Avatar"></span>
+										<span class="header">
+											<span class="from">
+										    	Dennis Ji
+										     </span>
+											<span class="time">
+										    	3 hours
+										    </span>
+										</span>
+                                        <span class="message">
+                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                        </span>
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="#">
+										<span class="avatar"><img src="{{asset('assets/img/avatar.jpg')}}" alt="Avatar"></span>
+										<span class="header">
+											<span class="from">
+										    	Dennis Ji
+										     </span>
+											<span class="time">
+										    	yesterday
+										    </span>
+										</span>
+                                        <span class="message">
+                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+										<span class="avatar"><img src="{{asset('assets/img/avatar.jpg')}}" alt="Avatar"></span>
+										<span class="header">
+											<span class="from">
+										    	Dennis Ji
+										     </span>
+											<span class="time">
+										    	Jul 25, 2012
+										    </span>
+										</span>
+                                        <span class="message">
+                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                        </span>
+                                    </a>
+                                </li>
+								<li>
+                            		<a class="dropdown-menu-sub-footer">View all messages</a>
+								</li>
+							</ul>
+						</li>
 
-        <ul class="navbar-user">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">   Olá, <strong> {{auth()->guard('admin')->user()->name}} </strong> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{url('/admin/users/config/' .auth()->guard('admin')->user()->id )}}"><i class = "fa fa-gears"></i> Configurações </a></li>
-              <li><a href="{{url('/admin/logout')}}"><i class = "fa fa-wrench"></i> Sair </a></li>
-            </ul>
-          </li>
-        </ul>
+						<!-- start: User Dropdown -->
+						<li class="dropdown">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="halflings-icon white user"></i> {{auth()->guard('admin')->user()->name}}
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-menu-title">
+ 									<span>Account Settings</span>
+								</li>
+								<li><a href="{{url('/admin/users/config/'.auth()->guard('admin')->user()->id)}}"><i class="halflings-icon user"></i> Profile</a></li>
+								<li><a href="/admin/logout"><i class="halflings-icon off"></i> Logout</a></li>
+							</ul>
+						</li>
+						<!-- end: User Dropdown -->
+					</ul>
+				</div>
+				<!-- end: Header Menu -->
 
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+			</div>
+		</div>
+	</div>
+	<!-- start: Header -->

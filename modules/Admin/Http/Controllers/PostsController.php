@@ -24,8 +24,11 @@ class PostsController extends Controller {
 	public function index(Request $request)
 	{
 
+			$isFilter = false;
+
 			if (count($request->query) > 0) {
 
+						$isFilter = true; // Filtros acionados
 						$title = $request->get('title');
 						$user_id = $request->get('user_id');
 						$created_at = $request->get('created_at');
@@ -45,13 +48,13 @@ class PostsController extends Controller {
 										->whereRaw(!empty($user_id) ? "user_id = $user_id" : '1 = 1')
 										->whereRaw(!empty($created_at) ? "created_at >= '$created_at'" : '1 = 1')
 										->whereRaw(!empty($created_end) ? "created_at <= '$created_end'" : '1 = 1' )
-										->sortable()->paginate(15);
+										->sortable()->get();
 			} else {
-						$posts = $this->post->sortable()->paginate(15);
+						$posts = $this->post->sortable()->get();
 			}
 
 			$users = $this->user->orderBy('name', 'asc')->lists('name', 'id');
-			return view('admin::posts.index', ['posts' => $posts, 'users' => $users]);
+			return view('admin::posts.index', ['posts' => $posts, 'users' => $users, 'isFilter' => $isFilter]);
 	}
 
 	public function add()
@@ -83,6 +86,8 @@ class PostsController extends Controller {
 
 			$post = new Post($request->all());
 			$post->slug = str_slug($request->get('title'));
+
+
 
 			if($post->save())
 			{

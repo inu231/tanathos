@@ -2,87 +2,164 @@
 
 @section('content')
 
-<div class = "container">
-    @if(session('msg'))
-      <div class="alert alert-success fade in" style="margin-top:18px;">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-          <strong>Success!</strong> {{session('msg')}}
-      </div>
-    @endif
+<!-- start: Content -->
+<div id="content" class="span10">
 
-
-
-    <div class = "panel panel-info">
-        <div class = "panel-heading">
-            <h3 class="panel-title"> Filtros </h3>
-        </div>
-        <div class = "panel-body">
-            <?= Form::open(array('method' => 'get', 'url' => '/admin/pages/')); ?>
-            <div class="form-group col-md-3">
-              <?= Form::label('title', 'Título'); ?>
-              <?= Form::text('title', \Input::has('title') ? \Input::get('title') : null, ['class' => 'form-control'])?>
-            </div>
-            <div class="form-group col-md-3">
-              <?= Form::label('slug'); ?>
-              <?= Form::text('slug', \Input::has('slug') ? Input::get('slug') : null, ['class' => 'form-control'])?>
-            </div>
-            <div class="date col-md-3">
-              <?= Form::label('created_at', 'Criado em'); ?>
-              <?= Form::text('created_at', \Input::has('created_at') ? Input::get('created_at') : null, ['class' => 'form-control', 'id' => 'created_at'])?> <span class="add-on"><i class="icon-th"></i></span>
-            </div>
-            <div class="date form-group col-md-3">
-              <?= Form::label('created_end', 'Criado até'); ?>
-              <?= Form::text('created_end', \Input::has('created_end') ? Input::get('created_end') : null, ['class' => 'form-control', 'id' => 'created_end'])?> <span class="add-on"><i class="icon-th"></i></span>
-            </div>
-
-
-
-            <div class="form-group col-md-1 pull-right">
-              <?= Form::submit('Filtrar', ['class' => 'btn btn-info']); ?>
-            </div>
-            <?= Form::close(); ?>
-            <div class="form-group  pull-right">
-                <a href = "{{url('/admin/pages')}}"> <button class="btn btn-default"> Limpar Filtros </button></a>
-            </div>
-
-        </div>
-    </div>
-
-    <div class = "panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Listar Páginas </h3>
-        </div>
-      <div class="panel-body">
-          <div class = "table-background">
-            	<table class = "table">
-                <tr>
-                  <th> @sortablelink ('title', 'Título')  </th>
-                  <th> @sortablelink ('parent_id', 'Pai') </th>
-                  <th> @sortablelink ('slug') </th>
-                  <th> @sortablelink ('created_at', 'Data de Criação') </th>
-                  <th> Ações </th>
-                </tr>
-              @foreach($pages as $page)
-                <tr>
-                    <td> {{$page->title}} </td>
-                    <td> {{$page->parent_id}}
-                    <td> {{$page->slug}} </td>
-                    <td> {{date('d/m/Y', strtotime($page->created_at))}} </td>
-                    <td>
-                      <a href="{{url('admin/pages/view/'.$page->id)}}" title="Ver">  <i class = "fa fa-file"></i> </a>
-                      <button class="delete-btn" onclick="onDelete({{$page->id}})"  title="Excluir"> <i class = "fa fa-minus-square"></i></button>
-                      <a href="{{url('admin/pages/add/')}}" title = "Adicionar"> <i class = "fa fa-plus-square"></i> </a>
-                      <a href="{{url('admin/pages/edit/'.$page->id)}}" title="Editar">  <i class = "fa fa-pencil"></i> </a>
-                    </td>
-                </tr>
-
-              @endforeach
-              </table>
-          </div>
-            {!! $pages->appends(Input::except('page'))->links() !!}
-      </div>
-
-    </div>
+<ul class="breadcrumb">
+	<li>
+		<i class="icon-home"></i>
+		<a href="{{url('/admin')}}">Home</a>
+		<i class="icon-angle-right"></i>
+	</li>
+	<li>
+		<a href="{{url('/admin/pages')}}">Pages</a>
+		<i class="icon-angle-right"></i>
+	</li>
+</ul>
+<div class="row-fluid add-new">
+  <a href="{{url('/admin/pages/add')}}" class="btn btn-info fa fa-plus"> Nova Página </a>
 </div>
+
+@if(session('msg'))
+  <div class="alert alert-success fade in" style="margin-top:18px;">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+      <strong>Ok!</strong> {{session('msg')}}
+  </div>
+@endif
+@if(session('error-msg'))
+  <div class="alert alert-danger fade in" style="margin-top:18px;">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+      <strong>Erro! </strong> {{session('error-msg')}}
+  </div>
+@endif
+
+
+<div class="row-fluid sortable">
+  <div class="box span12">
+    <div class="box-header" data-original-title>
+      <h2><i class="fa fa-search" aria-hidden="true"></i></i><span class="break"></span>Filtro Avançado</h2>
+      <div class="box-icon">
+        <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+        <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+        <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+      </div>
+    </div>
+
+
+    <div class="box-content" style="display: {{$isFilter? ' ' : 'none'}}">
+        <div class="form-group">
+              {!! Form::open(array('method' => 'get', 'url' => '/admin/pages/', 'class' => 'form-horizontal')); !!}
+
+              <div class="block">
+                  <div class="admin-form">
+                    <?= Form::label('title', 'Título'); ?>
+                    <?= Form::text('title', \Input::has('title') ? \Input::get('title') : null, ['class' => 'form-control'])?>
+                  </div>
+                  <div class="admin-form">
+                    <?= Form::label('created_at', 'Criado em'); ?>
+                    <?= Form::text('created_at', \Input::has('created_at') ? Input::get('created_at') : null, ['class' => 'date', 'id' => 'created_at'])?>
+                  </div>
+                  <div class="admin-form">
+                    <?= Form::label('created_end', 'Criado até'); ?>
+                    <?= Form::text('created_end', \Input::has('created_end') ? Input::get('created_end') : null, ['class' => 'date', 'id' => 'created_end'])?>
+                  </div>
+              </div>
+
+              <div class="block pull-right">
+                  <div class="form-group col-md-6 admin-form" style="padding-right: 0px !important">
+                    {!! Form::submit('Filtrar', ['class' => 'btn btn-info btn-filter']); !!}
+                  </div>
+                  {!! Form::close(); !!}
+                  <div class="form-group col-md-1 admin-form">
+                     <button class="btn btn-default" id="clear-filters"> Limpar Filtros </button>
+                  </div>
+              </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid sortable">
+	<div class="box span12">
+		<div class="box-header" data-original-title>
+			<h2><i class="icon-align-justify"></i><span class="break"></span>Páginas</h2>
+			<div class="box-icon">
+				<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+				<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+			</div>
+		</div>
+		<div class="box-content">
+			<table class="table table-striped table-bordered bootstrap-datatable datatable">
+				<thead>
+					<tr>
+						<th>Título</th>
+						<th>Pai</th>
+						<th>slug</th>
+						<th>Data de Criação</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+        @foreach($pages as $page)
+				<tr>
+					<td class="center">{{$page->title}}</td>
+					<td class="center">{{array_key_exists($page->parent_id, $parents->toArray())? $parents[$page->parent_id] : ' '}}</td>
+					<td class="center">{{$page->slug}}</td>
+					<td class="center">{{date('d/m/Y', strtotime($page->created_at))}}</td>
+          <td class="center">
+  						<a class="btn btn-success" href="{{url('/admin/pages/view/'.$page->id)}}" title="vizualizar">
+  							<i class="halflings-icon white zoom-in"></i>
+  						</a>
+  						<a class="btn btn-info" href="{{url('/admin/pages/edit/'.$page->id)}}"  title="editar">
+  							<i class="halflings-icon white edit"></i>
+  						</a>
+  						<a class="btn btn-danger" onclick="onDelete({{$page->id}})"  title="excluir">
+  							<i class="halflings-icon white trash"></i>
+  						</a>
+			  	</td>
+				</tr>
+        @endforeach
+				</tbody>
+			</table>
+		</div>
+	</div><!--/span-->
+
+</div><!--/row-->
+
+
+
+
+
+</div><!--/.fluid-container-->
+
+<!-- end: Content -->
+</div><!--/#content.span10-->
+</div><!--/fluid-row-->
+
+<div class="modal hide fade" id="myModal">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">×</button>
+<h3>Settings</h3>
+</div>
+<div class="modal-body">
+<p>Here settings can be configured...</p>
+</div>
+<div class="modal-footer">
+<a href="#" class="btn" data-dismiss="modal">Close</a>
+<a href="#" class="btn btn-primary">Save changes</a>
+</div>
+</div>
+<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-content">
+<ul class="list-inline item-details">
+	<li><a href="http://themifycloud.com">Admin templates</a></li>
+	<li><a href="http://themescloud.org">Bootstrap themes</a></li>
+</ul>
+</div>
+</div>
+<div class="clearfix"></div>
+
 
 @stop

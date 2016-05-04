@@ -36,3 +36,18 @@ $factory->define(Modules\Admin\Entities\Page::class, function (Faker\Generator $
         'html' => $faker->text,
     ];
 });
+
+$factory->define(Modules\Admin\Entities\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'description' => $faker->text,
+    ];
+});
+
+$factory->define(Modules\Admin\Entities\Message::class, function (Faker\Generator $faker) {
+    return [
+        'author' => $faker->name,
+        'title' => $faker->text,
+        'body' => $faker->text,
+    ];
+});

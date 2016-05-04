@@ -13,31 +13,6 @@ class BannersController extends Controller {
 
 	private $banner;
 
-	public function upload(Request $request)
-	{
-
-			$files = $request->file('files');
-
-
-			if (!empty($files))
-			{
-				foreach ($files as $file) {
-					$file_name = $file->getClientOriginalName();
-					Storage::put($file_name, file_get_contents($file));
-					$extension = $file->getClientOriginalExtension();
-					$size = Storage::size($file->getClientOriginalName());
-				}
-
-				return [
-					'extension' => $extension,
-					'file_name' => $file_name,
-					'file_size' => $size,
-				];
-			}
-
-	}
-
-
 	public function __construct(Banner $banner)
 	{
 			$this->banner = $banner;
@@ -45,8 +20,12 @@ class BannersController extends Controller {
 
 	public function index(Request $request)
 	{
+
+			$isFilter = false;
+
 			if (count($request->query) > 0)
 			{
+					$isFilter = true;
 					$name = $request->get('name');
 					$description = $request->get('description');
 
@@ -58,7 +37,7 @@ class BannersController extends Controller {
 					$banners = $this->banner->sortable()->paginate(15);
 			}
 
-			return view('admin::banners.index', ['banners' => $banners]);
+			return view('admin::banners.index', ['banners' => $banners, 'isFilter' => $isFilter]);
 	}
 
 	public function show($id)
@@ -86,6 +65,8 @@ class BannersController extends Controller {
 
 		 $image = $this->upload($request);
 
+
+
 		 $banner = new Banner(\Input::all());
 		 $banner->content_type = $image['extension'];
 		 $banner->file_name = $image['file_name'];
@@ -94,9 +75,9 @@ class BannersController extends Controller {
 
 		 if ($banner->save())
 		 {
-				return redirect('/admin/banners')->with('msg', 'A banner foi salva com sucesso!');
+				return redirect('/admin/banners')->with('msg', 'O banner foi salva com sucesso!');
 		 } else {
-				return redirect('/admin/banners')->with('error-msg', 'A banner não pode ser salva. Por favor, tente novamente.');
+				return redirect('/admin/banners')->with('error-msg', 'O banner não pode ser salva. Por favor, tente novamente.');
 		 }
 	}
 
@@ -124,7 +105,7 @@ class BannersController extends Controller {
 			if($banner)
 			{
 					$image = $this->upload($request);
-					
+
 					$banner->content_type = $image['extension'];
 					$banner->file_name = $image['file_name'];
 					$banner->file_size = $image['file_size'];
@@ -156,6 +137,29 @@ class BannersController extends Controller {
 			} else {
 					return redirect('/admin/banners')->with('error-msg', 'Houve um erro ao efetuar a operação. A banner não foi encontrada.');
 			}
+	}
+
+	public function upload(Request $request)
+	{
+
+			$files = $request->file('files');
+
+			if (!empty($files))
+			{
+				foreach ($files as $file) {
+					$file_name = $file->getClientOriginalName();
+					Storage::put($file_name, file_get_contents($file));
+					$extension = $file->getClientOriginalExtension();
+					$size = Storage::size($file->getClientOriginalName());
+				}
+
+				return [
+					'extension' => $extension,
+					'file_name' => $file_name,
+					'file_size' => $size,
+				];
+			}
+
 	}
 
 }

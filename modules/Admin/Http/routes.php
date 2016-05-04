@@ -15,9 +15,13 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'namespace' => 'Modu
 	Route::group(['middleware' => 'adminAuth:admin'], function(){
 			Route::get('/auth', 'AdminController@index');
 
-			Route::get('/', function(){
-					return view('admin::index');
-			});
+			Route::get('/', 'DashboardController@index');
+
+
+			// Messages routes
+			Route::get('/messages', 'MessagesController@index');
+			Route::post('/messages/getMessage/{id}', 'MessagesController@getMessage');
+			Route::post('/messages/sendmail/', 'MessagesController@sendMail');
 
 			// Pages Routes
 			Route::get('/pages', 'PagesController@index');

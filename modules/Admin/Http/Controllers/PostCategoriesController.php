@@ -18,8 +18,11 @@ class PostCategoriesController extends Controller {
 
 	public function index(Request $request)
 	{
+			$isFilter = false;
+			
 			if (count($request->query) > 0)
 			{
+					$isFilter = true;
 					$name = $request->get('name');
 					$description = $request->get('description');
 
@@ -31,13 +34,13 @@ class PostCategoriesController extends Controller {
 					$postsCategories = PostCategory::sortable()->paginate(15);
 			}
 
-			return view('admin::postCategories.index', ['postsCategories' => $postsCategories]);
+			return view('admin::postCategories.index', ['postsCategories' => $postsCategories, 'isFilter' => $isFilter]);
 	}
 
 	public function show($id)
 	{
 			$postCategory = $this->postCategory->find($id);
-			return view('admin::post-categories.show', ['postCategory' => $postCategory]);
+			return view('admin::postCategories.show', ['postCategory' => $postCategory]);
 	}
 
 	public function add()

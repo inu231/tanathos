@@ -3,66 +3,116 @@
 @section('content')
 
 
-<div class = "container">
+<div id="content" class="span10">
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{{url('/admin')}}">Home</a>
+					<i class="icon-angle-right"></i>
+				</li>
+				<li>
+					<a href="{{url('/admin/posts')}}">Posts</a>
+					<i class="icon-angle-right"></i>
+				</li>
+				<li>
+					<i class="icon-edit"></i>
+					<a href="#">Editar</a>
+				</li>
+			</ul>
 
-    @if (count($errors) > 0)
-      <div class="alert alert-danger fade in">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-          <span> Houve um erro ao salvar os dados. Verifique os campos que estão incorretos. </span>
-      </div>
-    @endif
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Editar Post </h3>
-        </div>
-        <div class="panel-body">
-            <?=Form::model($post, array('method' => 'put', 'url' => '/admin/posts/update/' . $post->id, 'id' => 'EditpostForm')); ?>
+					@if(session('error-msg'))
+						<div class="alert alert-success fade in" style="margin-top:18px;">
+								<a href="#" id="close-alert-msg1" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+								<strong>Success!</strong> {{session('error-msg')}}
+						</div>
+					@endif
 
-            <div class="form-group">
-                <?=Form::label('user_id', 'Autor') ;?>
-                <?=Form::select('user_id', [!empty($post->user_id) ? $post->user_id : null => !empty($post->user_id) ? $post->user->name : ' '] + $users->toArray(), null, array('class' => 'form-control')); ?>
-            </div>
-            <div class="form-group">
-                <?=Form::label('post_category_id', 'Categoria') ;?>
-                <?=Form::select('post_category_id', [!empty($post->post_category_id) ? $post->post_category_id : null => !empty($post->post_category_id) ? $post->postCategory->name : ' '] + $postCategories->toArray(), null, array('class' => 'form-control')); ?>
-            </div>
-            <div class="form-group">
-                <?=Form::label('tag_list', 'Tag'); ?>
-                <?=Form::select('tag_list[]', $tags, $tags_list->toArray(), array('class' => 'form-control', 'multiple')); ?>
-            </div>
-            <div class="form-group">
-                <?=Form::label('title', 'Título') ;?>
-                <?=Form::text('title', null, array('class' => 'form-control', 'required')); ?>
-                @if(!empty($errors->get('title')))
-                    <ul class="ul-validation-error">
-                    @foreach($errors->get('title') as $error)
-                        <li class="validation-error"> {{$error}}</li>
-                    @endforeach
-                    </ul>
-                @endif
-            </div>
-            <div class="form-group">
-                <?=Form::label('body', 'Conteúdo'); ?>
-                <?=Form::textarea('body', null, array('class' => 'editor-light form-control')); ?>
-            </div>
-            <div class="form-group">
-                <?=Form::label('slug', 'Slug') ;?>
-                <?=Form::text('slug', null, array('class' => 'form-control')); ?>
-                @if(!empty($errors->get('slug')))
-                    <ul class="ul-validation-error">
-                    @foreach($errors->get('slug') as $error)
-                        <li class="validation-error"> {{$error}}</li>
-                    @endforeach
-                    </ul>
-                @endif
-            </div>
-            <div class="form-group">
-                <?=Form::submit('Enviar', array('class' => 'btn btn-primary'));?>
-                <?=Form::close(); ?>
-            </div>
-        </div>
-    </div>
-</div>
+					@if (count($errors) > 0)
+						<div class="alert alert-danger fade in" style="margin-top:18px;">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+								<strong>Ops! </strong> <span> Houve um erro ao salvar os dados. Verifique os campos que estão incorretos. </span>
+						</div>
+					@endif
+
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span> Ediar Post </h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+							<?=Form::model($post, array('method' => 'put', 'url' => '/admin/posts/update/'.$post->id, 'id' => 'EditPostForm', 'class' => 'form-admin')); ?>
+						  <fieldset>
+							<div class="control-group">
+    							  <div class="controls">
+                        <?=Form::label('user_id', 'Autor') ;?>
+                        <?=Form::select('user_id', [null => ' '] + $users->toArray(), null, array('class' => 'span12')); ?>
+    							  </div>
+							</div>
+              <div class="control-group">
+                    <div class="controls">
+                        <?=Form::label('post_category_id', 'Categoria') ;?>
+                        <?=Form::select('post_category_id', [null => ' '] + $postCategories->toArray(), null, array('class' => 'span12')); ?>
+                    </div>
+              </div>
+            	<div class="control-group">
+    							  <div class="controls">
+                      <?=Form::label('tag_list', 'Tag'); ?>
+                      <?=Form::select('tag_list[]', $tags, $tags_list->toArray(), array('class' => 'span12', 'multiple', 'data-rel' => 'chosen')); ?>    							  </div>
+							</div>
+							<div class="control-group">
+										<div class="controls">
+												<?=Form::label('title', 'Título') ;?>
+												<?=Form::text('title', null, array('class' => 'form-control span12')); ?>
+												 @if(!empty($errors->get('title')))
+														 <ul class="ul-validation-error"> <li class="validation-error"> {{$errors->first('title')}}</li> </ul>
+												 @endif
+										</div>
+							</div>
+							<div class="control-group">
+										<div class="controls">
+												<?=Form::label('body', 'Conteúdo'); ?>
+												<?=Form::textarea('body', null, array('class' => 'editor-light form-control')); ?>
+												 @if(!empty($errors->get('body')))
+														 <ul class="ul-validation-error"> <li class="validation-error"> {{$errors->first('body')}}</li> </ul>
+												 @endif
+										</div>
+							</div>
+              <div class="control-group">
+                    <div class="controls">
+                        <?=Form::label('slug', 'Slug') ;?>
+                        <?=Form::text('slug', null, array('class' => 'form-control span12')); ?>
+                         @if(!empty($errors->get('slug')))
+                             <ul class="ul-validation-error"> <li class="validation-error"> {{$errors->first('slug')}}</li> </ul>
+                         @endif
+                    </div>
+              </div>
+
+							<div class="form-actions">
+								  <button type="submit" class="btn btn-primary">Editar</button>
+								  <a class="btn" href="{{url('/admin/posts')}}">Cancelar</a>
+							</div>
+						  </fieldset>
+						</form>
+
+					</div>
+				</div><!--/span-->
+
+			</div><!--/row-->
+
+
+
+
+	</div><!--/.fluid-container-->
+
+        <!-- end: Content -->
+    </div><!--/#content.span10-->
+    </div><!--/fluid-row-->
+
 
 @stop

@@ -20,7 +20,12 @@ class PagesController extends Controller {
 	public function index(Request $request)
 	{
 
+		$isFilter = false;
+
 		if(count($request->query) > 0) {
+
+			$isFilter = true;
+
 			$title = $request->get('title');
 			$slug = $request->get('slug');
 			$created_at = $request->get('created_at');
@@ -45,7 +50,9 @@ class PagesController extends Controller {
 			$pages = $this->page->sortable()->paginate(15);
 		}
 
-		return view('admin::pages.index', ['pages' => $pages]);
+		$parents = $this->page->where('parent_id', null)->orWhere('parent_id', 0)->lists('title', 'id');
+
+		return view('admin::pages.index', ['pages' => $pages, 'isFilter' => $isFilter, 'parents' => $parents]);
 
 	}
 
@@ -87,9 +94,18 @@ class PagesController extends Controller {
 	{
 
 			$page = $this->page->find($id);
+			$request->offsetSet('slug', str_slug($request->get('title')));
+
+			$this->validate($request, [
+					'title' => 'required|unique:pages,title,'.$page->id,
+					'content' => 'required',
+					'slug' => 'required|unique:pages,slug,'.$page->id,
+			]);
 
 			if ($page)
 			{
+					$page->slug = str_slug($request->get('title'));
+
 					$page->update($request->all());
 					return redirect('/admin/pages')->with('msg', 'O registro foi atualizado com sucesso!');
 			} else {

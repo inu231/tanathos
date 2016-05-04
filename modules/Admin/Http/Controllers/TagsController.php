@@ -19,20 +19,25 @@ class TagsController extends Controller {
 
 	public function index(Request $request)
 	{
+
+			$isFilter = false;
+
 			if (count($request->query) > 0)
 			{
+
+					$isFilter = true; // Filtros Acionados
 					$name = $request->get('name');
 					$description = $request->get('description');
 
 					$tags = $this->tag
 										->whereRaw(!empty($name)? "name LIKE '%$name%'" : '1 = 1')
 										->whereRaw(!empty($description)? "description LIKE '%$description%'": '1 = 1')
-										->sortable()->paginate(15);
+										->sortable()->get();
 			} else {
-					$tags = $this->tag->sortable()->paginate(15);
+					$tags = $this->tag->sortable()->get();
 			}
 
-			return view('admin::tags.index', ['tags' => $tags]);
+			return view('admin::tags.index', ['tags' => $tags, 'isFilter' => $isFilter]);
 	}
 
 	public function show($id)

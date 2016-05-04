@@ -16,9 +16,11 @@ class AdminController extends Controller {
 
 	public function index(Request $request)
 	{
+			$isFilter = false;
 
 			if (count($request->query) > 0) {
 
+						$isFilter = true;
 						$name = $request->get('name');
 						$email = $request->get('email');
 						$created_at = $request->get('created_at');
@@ -43,7 +45,7 @@ class AdminController extends Controller {
 						$users = Admin::sortable()->paginate(15);
 			}
 
-			return view('admin::admin.index', ['users' => $users]);
+			return view('admin::admin.index', ['users' => $users, 'isFilter' => $isFilter]);
 	}
 
 	public function add()
