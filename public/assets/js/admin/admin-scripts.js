@@ -105,7 +105,8 @@ $(function($){
 
     $('#AddMessageForm').submit(function(e){
           e.preventDefault();
-          console.log($(this).serialize());
+          jAlert('<p style="display:inline-block"><i class="fa fa-spinner fa-spin"></i> Enviando email... </p>', 'Aguarde');
+
           $.ajax({
               type:"POST",
               dataType:"HTML",
@@ -113,18 +114,13 @@ $(function($){
               url: $(this).attr('action'),
               success : function(data) {
                  //var material = $.parseJSON(data);
-                 alert('funfou');
+                 jAlert('<p style="display:inline-block"><i class="fa fa-check"></i> Email enviado com sucesso! </p>');
               },
               error : function() {
-                 alert("não funfou");
+                 jAlert('<p style="display:inline-block"><i class="fa fa-check"></i> Email não pode ser enviado! </p>');
               }
           });
     });
-
-
-
-
-
 
 
 });
@@ -155,12 +151,25 @@ function getMessage(id)  {
             data:{value_to_send:id},
             url:"/admin/messages/getMessage/" + id,
             success : function(data) {
+
                var message = $.parseJSON(data);
+
+               var previousMessage  = $('.sendMessage').attr('id');
+
                $('#message-title').text(message.title);
                $('#message-author').text(message.author);
                $('#message-email').text(message.email);
                $('#message-body').text(message.body);
                $('.sendmail').attr('id', message.email);
+               $('.sendMessage').attr('id', message.email);
+               $('#nameToSend').val(message.author);
+               $('#emailToSend').val(message.email);
+               $('.actions').attr('id', 'action-'+message.id);
+               $('#user-id').val(message.id);
+
+               if (previousMessage !== $('.sendMessage').attr('id')) {
+                    $('.sendMessage').val(' ');
+               }
 
                var current_date = $.datepicker.formatDate('dd/mm/yy', new Date());
                var created_at = $.datepicker.formatDate('dd/mm/yy', new Date(message.created_at));
@@ -176,37 +185,6 @@ function getMessage(id)  {
                alert("false");
             }
         });
-   });
-
-}
-
-function ajax_mail(id)  {
-
-    jQuery(function($) {
-
-      var email = id;
-      var message = $('#message').val();
-      var data = {email: email, message: message};
-
-      //data.push({email: email});
-      //data.push({message: message});
-
-      console.log(data);
-      $.ajax({
-          type:"POST",
-          dataType:"HTML",
-          data:{value_to_send:data},
-          url: "/admin/messages/sendmail/"+{email: email, message: message},
-          success : function(tata) {
-             var material = $.parseJSON(tata);
-             console.log(material);
-             console.log(tata);
-          },
-          error : function() {
-             alert("não funfou");
-          }
-      });
-
    });
 
 }

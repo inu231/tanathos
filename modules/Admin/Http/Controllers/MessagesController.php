@@ -33,8 +33,10 @@ class MessagesController extends Controller {
 	{
 			$body = $request->get('body');
 			$email = $request->get('email');
+			
+			$mail = new Emails();
 
-			//Emails::send
+			$mail->sendMail($request);
 	}
 
 }

@@ -9,28 +9,27 @@ use Mail;
 class Emails
 {
 
-    public function sendMail(array $data)
+    public function sendMail(Request $request)
     {
             $order = 1;
             $email = $request->get('email');
             $name = $request->get('name');
-            $subject = $request->get('subject');
+            $subject = 'JT Soft';
             $message = $request->get('message');
 
             $data = [
-                'order' => $order,
                 'email' => $email,
                 'name' => $name,
                 'subject' => $subject,
                 'message' => $message,
             ];
 
-            $appEmail = 'jtsoft.inc@gmail.com';
+            //$appEmail = 'felipe.inu@gmail.com';
 
-            Mail::send('pages.emails.sendmail', ['data' => $data], function ($message) use ($appEmail, $subject, $name, $order,  $email) {
-                $message->to($appEmail, $name)->subject($subject);
+            Mail::send('admin::admin.emails.answer', ['data' => $data], function ($message) use ($subject, $name, $email) {
+                $message->to($email, $name)->subject($subject);
             });
 
-            return redirect('/contato')->with('msg' , 'Email enviado com sucesso!');
+            //return redirect('/contato')->with('msg' , 'Email enviado com sucesso!');
         }
     }

@@ -46,9 +46,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="span5 noMarginLeft">
+
+
+	<div id="" class="span5 noMarginLeft">
 
 		<div class="message dark">
+			<?=Form::open(array('url' => '/admin/messages/sendmail', 'id' => 'AddMessageForm', 'class' => '')); ?>
 
 			<div class="header">
 				<h1 id="message-title"></h1>
@@ -69,19 +72,21 @@
 
 
 
-			<?=Form::open(array('url' => '/admin/messages/sendmail', 'id' => 'AddMessageForm', 'class' => '')); ?>
 
-				<fieldset>
-					<textarea tabindex="3" class="input-xlarge span12" id="message" name="body" rows="12" placeholder="Clique aqui para responder"></textarea>
+					<fieldset>
+						<textarea tabindex="3" class="sendMessage input-xlarge span12" id="" name="message" rows="12" placeholder="Clique aqui para responder"></textarea>
+						<input type = "hidden" name="name" id="nameToSend">
+						<input type = "hidden" name="id" id="user-id">
+						<input type = "hidden" name="email" id="emailToSend">
+						<div id="" class="actions">
 
-					<div class="actions">
+							<button id="" tabindex="3" type="submit" class="sendmail btn btn-success" onclick="">Enviar Mensagem</button>
 
-						<button id="" tabindex="3" type="submit" class="sendmail btn btn-success" onclick="">Enviar Mensagem</button>
+						</div>
 
-					</div>
+					</fieldset>
+				</form>
 
-				</fieldset>
-			</form>
 
 
 
